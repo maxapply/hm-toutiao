@@ -3,6 +3,9 @@ import Vue from "vue";
 
 import Login from "../views/login/index.vue";
 import Home from "../views/home/index.vue";
+import Welcome from "../views/welcome/index.vue";
+import NotFound from "../views/notfound/index.vue";
+import auth from "../utils/auth.js";
 
 Vue.use(VueRouter);
 
@@ -14,9 +17,25 @@ const router = new VueRouter({
     },
     {
       path: "/",
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: "/",
+          component: Welcome
+        }
+      ]
+    },
+    {
+      path: "*",
+      component: NotFound
     }
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path === "/login") return next();
+  if (auth.getUser().token) return next();
+  next("/login");
 });
 
 export default router;

@@ -35,6 +35,8 @@
 </template>
 
 <script>
+// import { setUser } from '../../utils/auth.js'
+import auth from "../../utils/auth.js";
 export default {
   name: "login",
   data() {
@@ -72,8 +74,7 @@ export default {
               this.LoginForm
             )
             .then(res => {
-              console.log(res);
-
+              auth.setUser(res.data.data);
               this.$router.push("/");
             })
             .catch(() => {
