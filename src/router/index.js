@@ -6,6 +6,7 @@ import Home from "../views/home/index.vue";
 import Welcome from "../views/welcome/index.vue";
 import NotFound from "../views/notfound/index.vue";
 import auth from "../utils/auth.js";
+import appArticle from "../views/article/index.vue";
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,10 @@ const router = new VueRouter({
         {
           path: "/",
           component: Welcome
+        },
+        {
+          path: "/article",
+          component: appArticle
         }
       ]
     },
