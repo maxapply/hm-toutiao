@@ -35,7 +35,6 @@
 </template>
 
 <script>
-// import { setUser } from '../../utils/auth.js'
 import auth from "../../utils/auth.js";
 export default {
   name: "login",
@@ -66,20 +65,25 @@ export default {
   },
   methods: {
     login() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
-          this.$http
-            .post(
-              "http://ttapi.research.itcast.cn/mp/v1_0/authorizations",
-              this.LoginForm
-            )
-            .then(res => {
-              auth.setUser(res.data.data);
-              this.$router.push("/");
-            })
-            .catch(() => {
-              this.$message.error("手机号或验证码输入错误！");
-            });
+          try {
+            const res = await this.$http.post("authorizations", this.LoginForm);
+
+            auth.setUser(res.data.data);
+            this.$router.push("/");
+          } catch (e) {
+            this.$message.error("手机号或验证码输入错误！");
+          }
+          // const res = async  this.$http
+          //     .post('authorizations', this.LoginForm)
+          // .then(res => {
+          //   auth.setUser(res.data.data)
+          //   this.$router.push('/')
+          // })
+          // .catch(() => {
+          //   this.$message.error('手机号或验证码输入错误！')
+          // })
         }
       });
     }
