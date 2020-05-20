@@ -8,12 +8,15 @@ import router from "./router/index.js";
 
 import axios from "./api/index.js";
 
+import plugin from "./plugin";
+
 // import axios from 'axios'
 
 // axios.defaults.headers.Authorization = `Bearer ${auth.getUser().token}`
 Vue.prototype.$http = axios;
 
 Vue.use(ElementUI);
+Vue.use(plugin);
 
 Vue.config.productionTip = false;
 

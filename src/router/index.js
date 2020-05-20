@@ -7,6 +7,7 @@ import Welcome from "../views/welcome/index.vue";
 import NotFound from "../views/notfound/index.vue";
 import auth from "../utils/auth.js";
 import appArticle from "../views/article/index.vue";
+import Image from "../views/image/index.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,10 @@ const router = new VueRouter({
         {
           path: "/article",
           component: appArticle
+        },
+        {
+          path: "/image",
+          component: Image
         }
       ]
     },

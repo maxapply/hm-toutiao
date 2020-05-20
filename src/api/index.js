@@ -2,6 +2,7 @@
 import auth from "../utils/auth.js";
 import axios from "axios";
 import router from "../router/index.js";
+import JSONBIGINT from "json-bigint";
 
 axios.defaults.baseURL = "http://ttapi.research.itcast.cn/mp/v1_0/";
 
@@ -36,4 +37,15 @@ axios.interceptors.response.use(
   }
 );
 
+// 转换响应结果 ， 处理最大安全数值
+
+axios.defaults.transformResponse = [
+  data => {
+    try {
+      return JSONBIGINT.parse(data);
+    } catch (e) {
+      return data;
+    }
+  }
+];
 export default axios;
