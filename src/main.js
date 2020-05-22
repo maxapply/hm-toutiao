@@ -10,6 +10,8 @@ import axios from "./api/index.js";
 
 import plugin from "./plugin";
 
+import "./styles/index.less";
+
 // import axios from 'axios'
 
 // axios.defaults.headers.Authorization = `Bearer ${auth.getUser().token}`
