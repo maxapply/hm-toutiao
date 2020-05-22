@@ -187,7 +187,6 @@ export default {
         .then(async () => {
           try {
             await this.$http.delete(`articles/${id}`);
-
             this.$message({
               type: "success",
               message: "删除成功!"
