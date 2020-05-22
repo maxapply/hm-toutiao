@@ -17,20 +17,11 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道：">
-          <el-select
-            clearable
-            v-model="filterData.channel_id"
-            placeholder="请选择活动区域"
-            @change="changes"
-          >
-            <el-option
-              v-for="item in changeOptions"
-              :key="item.id"
-              :label="item.name"
-              :value="item.id"
-            >
-            </el-option>
-          </el-select>
+          <!-- ---------- -->
+          <my-channel
+            :value="filterData.channel_id"
+            @input="fn($event)"
+          ></my-channel>
         </el-form-item>
         <el-form-item label="日期：">
           <el-date-picker
@@ -137,14 +128,10 @@ export default {
     };
   },
   created() {
-    this.getChannels();
+    // this.getChannels();
     this.getArticles();
   },
   methods: {
-    async getChannels() {
-      const res = await this.$http.get("channels");
-      this.changeOptions = res.data.data.channels;
-    },
     async getArticles() {
       const res = await this.$http.get("articles", {
         params: this.filterData
@@ -169,11 +156,6 @@ export default {
     setting() {
       this.filterData.page = 1;
       this.getArticles();
-    },
-    changes(e) {
-      if (e === "") {
-        this.filterData.channel_id = null;
-      }
     },
     toEditArticle(id) {
       this.$router.push(`/publish?id=${id}`);
@@ -203,6 +185,9 @@ export default {
             message: "已取消删除"
           });
         });
+    },
+    fn(id) {
+      this.filterData.channel_id = id;
     }
   }
 };

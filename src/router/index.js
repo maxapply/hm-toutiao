@@ -8,6 +8,7 @@ import NotFound from "../views/notfound/index.vue";
 import auth from "../utils/auth.js";
 import appArticle from "../views/article/index.vue";
 import Image from "../views/image/index.vue";
+import publish from "../views/publish/index.vue";
 
 Vue.use(VueRouter);
 
@@ -32,6 +33,10 @@ const router = new VueRouter({
         {
           path: "/image",
           component: Image
+        },
+        {
+          path: "/publish",
+          component: publish
         }
       ]
     },
