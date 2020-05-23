@@ -2,7 +2,7 @@
   <div class="publish">
     <el-card>
       <div slot="header">
-        <my-bread>发布文章</my-bread>
+        <my-bread>{{ $route.query.id ? "修改" : "发布" }}文章</my-bread>
       </div>
       <el-form label-width="120px">
         <el-form-item label="标题：">
@@ -49,15 +49,25 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button
-            type="primary"
-            size="small"
-            @click="publishArticle('false')"
-            >发布文章</el-button
-          >
-          <el-button size="small" @click="publishArticle('true')"
-            >存入草稿</el-button
-          >
+          <div v-if="$route.query.id">
+            <el-button
+              type="success"
+              size="small"
+              @click="publishArticle(false)"
+              >修改文章</el-button
+            >
+          </div>
+          <div v-else>
+            <el-button
+              type="primary"
+              size="small"
+              @click="publishArticle(false)"
+              >发布文章</el-button
+            >
+            <el-button size="small" @click="publishArticle(true)"
+              >存入草稿</el-button
+            >
+          </div>
         </el-form-item>
       </el-form>
     </el-card>
@@ -69,7 +79,6 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
-import router from "../../router/index.js";
 export default {
   name: "publish",
   components: { quillEditor },
@@ -100,12 +109,44 @@ export default {
       }
     };
   },
+  created() {
+    if (this.$route.query.id) {
+      this.getArticle();
+    }
+  },
+  watch: {
+    "$route.query.id": function() {
+      this.toggleFormIfo();
+    }
+  },
   methods: {
-    async publishArticle(zhi) {
-      await this.$http.post("articles", this.articles, {
-        draft: zhi
-      });
-      router.push("article");
+    async publishArticle(draft) {
+      try {
+        await this.$http.post(`articles?draft=${draft}`, this.articles);
+        this.$message.success(draft ? "存入草稿成功！" : "发布文章成功！");
+        this.$router.push("/article");
+      } catch (e) {
+        this.$message.error("操作失败");
+      }
+    },
+    async getArticle() {
+      const res = await this.$http.get(`articles/${this.$route.query.id}`);
+      this.articles = res.data.data;
+    },
+    toggleFormIfo() {
+      if (this.$route.query.id) {
+        this.getArticle();
+      } else {
+        this.articles = {
+          title: null,
+          content: null,
+          cover: {
+            type: 1,
+            images: []
+          },
+          channel_id: null
+        };
+      }
     }
   }
 };
