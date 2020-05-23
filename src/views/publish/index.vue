@@ -50,10 +50,7 @@
 
         <el-form-item>
           <div v-if="$route.query.id">
-            <el-button
-              type="success"
-              size="small"
-              @click="publishArticle(false)"
+            <el-button type="success" size="small" @click="updata()"
               >修改文章</el-button
             >
           </div>
@@ -146,6 +143,18 @@ export default {
           },
           channel_id: null
         };
+      }
+    },
+    async updata() {
+      try {
+        await this.$http.put(
+          `articles/${this.$route.query.id}?draft=false`,
+          this.articles
+        );
+        this.$message.success("修改成功！");
+        this.$router.push("/article");
+      } catch (e) {
+        this.$message.error("修改失败！");
       }
     }
   }
