@@ -21,16 +21,26 @@
         </el-form-item>
 
         <el-form-item label="封面：">
-          <el-radio-group v-model="articles.cover.type">
+          <el-radio-group
+            @change="articles.cover.images = []"
+            v-model="articles.cover.type"
+          >
             <el-radio :label="1">单图</el-radio>
             <el-radio :label="3">三图</el-radio>
             <el-radio :label="0">无图</el-radio>
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
           <div>
-            <my-image v-model="articles.cover.images[0]"></my-image>
-            <my-image v-model="articles.cover.images[1]"></my-image>
-            <my-image v-model="articles.cover.images[2]"></my-image>
+            <div v-if="articles.cover.type === 1">
+              <my-image v-model="articles.cover.images[0]"></my-image>
+            </div>
+            <div v-else>
+              <my-image
+                :key="item"
+                v-for="item in 3"
+                v-model="articles.cover.images[item - 1]"
+              ></my-image>
+            </div>
           </div>
         </el-form-item>
 
@@ -39,8 +49,15 @@
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" size="small">发布文章</el-button>
-          <el-button size="small">存入草稿</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="publishArticle('false')"
+            >发布文章</el-button
+          >
+          <el-button size="small" @click="publishArticle('true')"
+            >存入草稿</el-button
+          >
         </el-form-item>
       </el-form>
     </el-card>
@@ -52,6 +69,7 @@ import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 import { quillEditor } from "vue-quill-editor";
+import router from "../../router/index.js";
 export default {
   name: "publish",
   components: { quillEditor },
@@ -81,6 +99,14 @@ export default {
         }
       }
     };
+  },
+  methods: {
+    async publishArticle(zhi) {
+      await this.$http.post("articles", this.articles, {
+        draft: zhi
+      });
+      router.push("article");
+    }
   }
 };
 </script>

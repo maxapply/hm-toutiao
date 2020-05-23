@@ -65,10 +65,10 @@
 </template>
 
 <script>
-import auth from "../../utils/auth.js";
+import auth from '../../utils/auth.js'
 export default {
-  name: "app-image",
-  data() {
+  name: 'app-image',
+  data () {
     return {
       reqParms: {
         collect: false,
@@ -82,82 +82,82 @@ export default {
       actionHeaders: {
         Authorization: `Bearer ${auth.getUser().token}`
       }
-    };
+    }
   },
 
-  created() {
-    this.getImages();
+  created () {
+    this.getImages()
   },
   methods: {
-    async getImages() {
-      const res = await this.$http.get("user/images", {
+    async getImages () {
+      const res = await this.$http.get('user/images', {
         params: this.reqParms
-      });
-      this.images = res.data.data.results;
-      this.count = res.data.data.total_count;
+      })
+      this.images = res.data.data.results
+      this.count = res.data.data.total_count
       // console.log(res)
     },
-    changes(e) {
-      this.reqParms.page = e;
-      this.getImages();
+    changes (e) {
+      this.reqParms.page = e
+      this.getImages()
     },
-    changeCollect() {
-      this.reqParms.page = 1;
-      this.getImages();
+    changeCollect () {
+      this.reqParms.page = 1
+      this.getImages()
     },
-    delImage(id) {
-      this.$confirm("亲，确认要删除该图片吗？", "温馨提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+    delImage (id) {
+      this.$confirm('亲，确认要删除该图片吗？', '温馨提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(async () => {
           try {
-            const res = await this.$http.delete(`user/images/${id}`);
-            console.log(res);
+            const res = await this.$http.delete(`user/images/${id}`)
+            console.log(res)
             this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.getImages();
+              type: 'success',
+              message: '删除成功!'
+            })
+            this.getImages()
           } catch (e) {
-            this.$message.error("删除失败！");
+            this.$message.error('删除失败！')
           }
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消删除"
-          });
-        });
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
-    openDialog() {
-      this.imageUrl = null;
-      this.dialogVisible = true;
+    openDialog () {
+      this.imageUrl = null
+      this.dialogVisible = true
     },
-    handleSuccess(e) {
-      this.$message.success("上传成功！");
-      this.imageUrl = e.data.url;
+    handleSuccess (e) {
+      this.$message.success('上传成功！')
+      this.imageUrl = e.data.url
       window.setTimeout(() => {
-        this.dialogVisible = false;
-        this.getImages();
-      }, 3000);
+        this.dialogVisible = false
+        this.getImages()
+      }, 3000)
     },
-    async addImage(item) {
+    async addImage (item) {
       try {
         const res = await this.$http.put(`user/images/${item.id}`, {
           collect: !item.is_collected
-        });
-        this.getImages();
+        })
+        this.getImages()
         this.$message.success(
-          res.data.data.collect ? "添加收藏成功" : "取消收藏成功"
-        );
+          res.data.data.collect ? '添加收藏成功' : '取消收藏成功'
+        )
       } catch (e) {
-        this.$message.error("收藏失败");
+        this.$message.error('收藏失败')
       }
     }
   }
-};
+}
 </script>
 
 <style scoped lang="less">
