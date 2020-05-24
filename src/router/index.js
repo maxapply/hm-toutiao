@@ -9,6 +9,7 @@ import auth from "../utils/auth.js";
 import appArticle from "../views/article/index.vue";
 import Image from "../views/image/index.vue";
 import publish from "../views/publish/index.vue";
+import comment from "../views/comment/index.vue";
 
 Vue.use(VueRouter);
 
@@ -37,6 +38,10 @@ const router = new VueRouter({
         {
           path: "/publish",
           component: publish
+        },
+        {
+          path: "/comment",
+          component: comment
         }
       ]
     },
