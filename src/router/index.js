@@ -10,6 +10,7 @@ import appArticle from "../views/article/index.vue";
 import Image from "../views/image/index.vue";
 import publish from "../views/publish/index.vue";
 import comment from "../views/comment/index.vue";
+import fans from "../views/fans/index.vue";
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,10 @@ const router = new VueRouter({
         {
           path: "/comment",
           component: comment
+        },
+        {
+          path: "/fans",
+          component: fans
         }
       ]
     },
