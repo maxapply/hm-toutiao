@@ -38,7 +38,7 @@
 
 <script>
 import auth from "../../utils/auth.js";
-import eventBus from "../../evenBus.js";
+import eventBus from "../../eventBus.js";
 export default {
   name: "setting",
   data() {

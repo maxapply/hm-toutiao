@@ -76,6 +76,7 @@
 
 <script>
 import auth from "../../utils/auth.js";
+import eventBus from "../../eventBus.js";
 export default {
   name: "home",
   data() {
@@ -90,6 +91,10 @@ export default {
     const user = auth.getUser();
     this.name = user.name;
     this.photo = user.photo;
+    eventBus.$on("btn2", data => {
+      this.photo = data.photo;
+      this.name = data.name;
+    });
   },
   methods: {
     toggleMenu() {
