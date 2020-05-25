@@ -1,7 +1,7 @@
 const UserName = "UserName";
 
 const setUser = user => {
-  window.sessionStorage.setItem(UserName, JSON.stringify(user));
+  return window.sessionStorage.setItem(UserName, JSON.stringify(user));
 };
 
 const getUser = () => {
